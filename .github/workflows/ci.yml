@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [20]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # This enables task distribution via Nx Cloud
+      # Uncomment this line to enable task distribution
+      # - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Set SHAs for NX
+        uses: nrwl/nx-set-shas@v4
+
+      - name: Run affected linting
+        run: npx nx affected -t lint
+
+      - name: Run affected tests
+        run: npx nx affected -t test
+
+      - name: Build affected applications
+        run: npx nx affected -t build
+
+      - name: Run security audit
+        run: npm audit
+
+      - name: Cache Nx
+        uses: actions/cache@v3
+        with:
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nx-

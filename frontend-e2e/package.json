@@ -1,0 +1,10 @@
+{
+  "name": "@nx-user-hub/frontend-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@nx-user-hub/frontend"
+    ]
+  }
+}
