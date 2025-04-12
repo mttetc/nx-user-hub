@@ -6,13 +6,18 @@
   "nx": {
     "targets": {
       "build": {
-        "executor": "@nx/vite:build",
+        "executor": "@nx/js:tsc",
         "outputs": [
           "{options.outputPath}"
         ],
         "defaultConfiguration": "production",
         "options": {
-          "outputPath": "dist/backend"
+          "outputPath": "dist/backend",
+          "main": "backend/src/main.ts",
+          "tsConfig": "backend/tsconfig.app.json",
+          "assets": [
+            "backend/src/assets"
+          ]
         },
         "configurations": {
           "development": {
@@ -24,7 +29,7 @@
         }
       },
       "serve": {
-        "executor": "@nx/vite:dev-server",
+        "executor": "@nx/js:node",
         "defaultConfiguration": "development",
         "options": {
           "buildTarget": "@nx-user-hub/backend:build"
@@ -39,13 +44,12 @@
         }
       },
       "test": {
-        "executor": "@nx/vite:test",
+        "executor": "@nx/jest:jest",
         "outputs": [
-          "{options.reportsDirectory}"
+          "{workspaceRoot}/coverage/{projectRoot}"
         ],
         "options": {
-          "passWithNoTests": true,
-          "reportsDirectory": "../../test-output/vitest/coverage"
+          "jestConfig": "backend/jest.config.ts"
         }
       }
     }

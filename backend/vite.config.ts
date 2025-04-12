@@ -38,6 +38,14 @@ export default defineConfig(({ mode }) => ({
       ],
     },
   },
+  optimizeDeps: {
+    exclude: [
+      '@nestjs/common',
+      '@nestjs/core',
+      '@nestjs/platform-express',
+      'reflect-metadata',
+    ],
+  },
   test: {
     watch: false,
     globals: true,
