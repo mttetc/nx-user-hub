@@ -8,8 +8,8 @@ import {
   Param,
   HttpStatus,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { User, ApiResponse } from '@nx-user-hub/shared-types';
+import { UsersService } from './users.service.js';
+import type { User, ApiResponse } from '@nx-user-hub/shared-types';
 
 @Controller('users')
 export class UsersController {
