@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
+  "main": "./dist/backend/src/main.js",
   "nx": {
     "targets": {
       "build": {
@@ -13,10 +14,10 @@
         "defaultConfiguration": "production",
         "options": {
           "outputPath": "dist/backend",
-          "main": "backend/src/main.ts",
+          "main": "src/main.ts",
           "tsConfig": "backend/tsconfig.app.json",
           "assets": [
-            "backend/src/assets"
+            "src/assets"
           ]
         },
         "configurations": {
@@ -32,7 +33,9 @@
         "executor": "@nx/js:node",
         "defaultConfiguration": "development",
         "options": {
-          "buildTarget": "@nx-user-hub/backend:build"
+          "buildTarget": "@nx-user-hub/backend:build",
+          "watch": true,
+          "port": 3000
         },
         "configurations": {
           "development": {
