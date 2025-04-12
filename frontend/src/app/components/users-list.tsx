@@ -31,7 +31,7 @@ export function UsersList() {
       const data = await response.json();
       setUsers(data.data);
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Failed to load users');
     } finally {
       setLoading(false);
@@ -52,7 +52,7 @@ export function UsersList() {
       setUsers([...users, data.data]);
       setFormData({ name: '', email: '', role: UserRole.USER });
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Failed to create user');
     }
   }
@@ -64,7 +64,7 @@ export function UsersList() {
       });
       setUsers(users.filter((user) => user.id !== id));
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Failed to delete user');
     }
   }

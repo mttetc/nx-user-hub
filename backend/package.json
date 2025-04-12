@@ -6,30 +6,28 @@
   "nx": {
     "targets": {
       "build": {
-        "executor": "nx:run-commands",
+        "executor": "@nx/vite:build",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
         "options": {
-          "command": "webpack-cli build",
-          "args": [
-            "node-env=production"
-          ]
+          "outputPath": "dist/backend"
         },
         "configurations": {
           "development": {
-            "args": [
-              "node-env=development"
-            ]
+            "mode": "development"
+          },
+          "production": {
+            "mode": "production"
           }
         }
       },
       "serve": {
-        "executor": "@nx/js:node",
+        "executor": "@nx/vite:dev-server",
         "defaultConfiguration": "development",
-        "dependsOn": [
-          "build"
-        ],
         "options": {
-          "buildTarget": "@nx-user-hub/backend:build",
-          "runBuildTargetDependencies": false
+          "buildTarget": "@nx-user-hub/backend:build"
         },
         "configurations": {
           "development": {
@@ -41,8 +39,13 @@
         }
       },
       "test": {
+        "executor": "@nx/vite:test",
+        "outputs": [
+          "{options.reportsDirectory}"
+        ],
         "options": {
-          "passWithNoTests": true
+          "passWithNoTests": true,
+          "reportsDirectory": "../../test-output/vitest/coverage"
         }
       }
     }
